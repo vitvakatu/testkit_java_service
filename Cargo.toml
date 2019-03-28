@@ -1,0 +1,25 @@
+[package]
+name = "testkit_java_service"
+version = "0.1.0"
+authors = ["Ilya Bogdanov <ilya.bogdanov@xdev.re>"]
+edition = "2018"
+
+[lib]
+crate-type = ["rlib"]
+
+[dependencies]
+serde = "1.0.0"
+serde_derive = "1.0.0"
+protobuf = "2.4"
+exonum-testkit = "0.11"
+exonum-derive = "0.11"
+failure = "0.1.5"
+java_bindings = { path = "../exonum-java-binding/exonum-java-binding/core/rust", features = ["invocation", "resource-manager"] }
+integration_tests = { path = "../exonum-java-binding/exonum-java-binding/core/rust/integration_tests" }
+
+[build-dependencies]
+exonum-build = "0.11"
+
+[features]
+default = ["with-serde"]
+with-serde = []
