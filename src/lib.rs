@@ -56,10 +56,9 @@ fn test_after_commit() {
     let after_commit_counter = crypto::hash(AFTER_COMMIT_COUNTER_NAME.as_bytes());
     assert_counter_value(&testkit, &after_commit_counter, 0);
     testkit.create_block();
-    // TODO: WTF?
     assert_counter_value(&testkit, &after_commit_counter, 0);
     testkit.create_block();
-    assert_counter_value(&testkit, &after_commit_counter, 0);
+    assert_counter_value(&testkit, &after_commit_counter, 1);
 }
 
 #[test]
@@ -95,7 +94,7 @@ fn create_testkit_with_qa_service() -> TestKit {
         service_class_path: "".to_string(),
     };
     let runtime_config = RuntimeConfig {
-        log_config_path: "".to_string(),
+        log_config_path: "/Users/ilyabogdanov/projects/testkit_java_service/log4j2.xml".to_string(),
         port: 6000,
     };
     let jvm_config = JvmConfig {
@@ -115,7 +114,9 @@ fn create_testkit_with_qa_service() -> TestKit {
         },
     );
     let service = service_runtime.create_service("", TEST_SERVICE_MODULE_NAME);
-    TestKitBuilder::validator().with_service(service).create()
+    let testkit = TestKitBuilder::validator().with_service(service).create();
+    testkit.api();
+    testkit
 }
 
 fn create_counter_tx(name: &str, (pk, sk): &(PublicKey, SecretKey)) -> Signed<RawTransaction> {
